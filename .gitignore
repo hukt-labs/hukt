@@ -1,0 +1,40 @@
+# Generation / tooling scripts are never part of the public source tree.
+main.py
+generator.py
+builder.py
+*.generator.py
+*.builder.py
+gen_*.py
+scripts/
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+*.pem
+*.keypair.json
+id.json
+
+# Rust / Anchor build output
+target/
+.anchor/
+test-ledger/
+**/*.rs.bk
+
+# Node / TypeScript build output
+node_modules/
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+
+# Python cache (indexer tooling)
+__pycache__/
+*.py[cod]
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.log
