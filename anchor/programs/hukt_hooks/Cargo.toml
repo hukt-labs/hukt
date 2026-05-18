@@ -1,0 +1,29 @@
+[package]
+name = "hukt-hooks"
+version = "0.1.0"
+description = "HUKT Token-2022 transfer hook program suite"
+edition = "2021"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "hukt_hooks"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+# Stack B (verified in docs/hook-spec.md). Do NOT add spl-token-2022 or spl-pod
+# directly -- anchor-spl 0.31.1 pulls spl-token-2022 ^6 transitively and a direct
+# major pin would duplicate-link and break the build. Reach extension types via
+# anchor_spl::token_2022::spl_token_2022::... re-exports.
+[dependencies]
+# interface-instructions gates the `#[interface(...)]` attribute used to map
+# transfer_hook onto the SPL Execute discriminator Token-2022 CPIs with.
+anchor-lang = { version = "0.31.1", features = ["init-if-needed", "interface-instructions"] }
+anchor-spl = { version = "0.31.1", features = ["token_2022", "token_2022_extensions"] }
+spl-transfer-hook-interface = "0.10.0"
+spl-tlv-account-resolution = "0.10.0"

@@ -1,0 +1,25 @@
+{
+  "name": "@hukt/anchor-program",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HUKT Token-2022 transfer-hook program suite (Anchor 0.31) and on-chain hook registry",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "test": "anchor test"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/spl-token": "^0.4.9",
+    "@solana/web3.js": "^1.98.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.0",
+    "chai": "^4.4.1",
+    "mocha": "^10.3.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.4.2"
+  }
+}
