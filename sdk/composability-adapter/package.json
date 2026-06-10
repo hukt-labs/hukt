@@ -1,0 +1,22 @@
+{
+  "name": "@hukt/composability-adapter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Make Token-2022 transfer-hook tokens safe for existing DEX and lending integrations by auto-injecting resolved extra accounts.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.9"
+  },
+  "license": "MIT"
+}
