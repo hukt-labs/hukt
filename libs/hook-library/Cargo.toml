@@ -1,0 +1,11 @@
+[package]
+name = "hukt-hook-library"
+version = "0.1.0"
+description = "Verified, composable Token-2022 transfer-hook presets for HUKT"
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "hukt_hook_library"
+
+[dependencies]

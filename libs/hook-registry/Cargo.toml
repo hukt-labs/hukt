@@ -1,0 +1,11 @@
+[package]
+name = "hukt-hook-registry"
+version = "0.1.0"
+description = "On-chain registry and safety attestation types for HUKT transfer hooks"
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "hukt_hook_registry"
+
+[dependencies]
