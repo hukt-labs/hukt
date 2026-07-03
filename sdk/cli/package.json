@@ -1,0 +1,16 @@
+{
+  "name": "hukt-cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Command-line tool for Solana Token-2022 transfer hooks: add, deploy, inspect, attest, resolve.",
+  "type": "commonjs",
+  "bin": {
+    "hukt-cli": "./bin/hukt.js",
+    "hukt": "./bin/hukt.js"
+  },
+  "files": ["bin", "src"],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "license": "MIT"
+}
