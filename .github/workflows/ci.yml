@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  rust:
+    name: Rust (fmt, clippy, test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt clippy
+          rustup default stable
+          rustc --version
+
+      - name: Formatting (anchor programs + shared libraries)
+        run: |
+          cargo fmt --manifest-path anchor/Cargo.toml --all --check
+          cargo fmt --manifest-path libs/hook-library/Cargo.toml --all --check
+          cargo fmt --manifest-path libs/hook-registry/Cargo.toml --all --check
+
+      - name: Clippy (shared libraries)
+        run: |
+          cargo clippy --manifest-path libs/hook-library/Cargo.toml --all-targets -- -D warnings
+          cargo clippy --manifest-path libs/hook-registry/Cargo.toml --all-targets -- -D warnings
+
+      - name: Test (shared libraries)
+        run: |
+          cargo test --manifest-path libs/hook-library/Cargo.toml
+          cargo test --manifest-path libs/hook-registry/Cargo.toml
+
+  sdk:
+    name: SDK (typecheck, test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdk
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck --workspaces --if-present
+
+      - name: Test
+        run: npm test --workspaces --if-present
