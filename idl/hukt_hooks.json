@@ -1,0 +1,1698 @@
+{
+  "address": "4q7Tgd9A1XfTB2i6WLUjmFXNocw6GrshZwcKgarGV9aC",
+  "metadata": {
+    "name": "hukt_hooks",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "HUKT Token-2022 transfer hook program suite"
+  },
+  "instructions": [
+    {
+      "name": "init_cooldown",
+      "docs": [
+        "AntiBot: register the cooldown-tracking account for `(mint, owner)`."
+      ],
+      "discriminator": [
+        208,
+        173,
+        114,
+        50,
+        4,
+        218,
+        136,
+        232
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "cooldown",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  111,
+                  108,
+                  100,
+                  111,
+                  119,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              },
+              {
+                "kind": "arg",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "init_fee_config",
+      "docs": [
+        "FeeOnTransfer: configure the fee policy and its accounting vault."
+      ],
+      "discriminator": [
+        212,
+        138,
+        200,
+        114,
+        73,
+        176,
+        7,
+        197
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "fee_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  45,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "min_transfer",
+          "type": "u64"
+        },
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "init_hook_config",
+      "docs": [
+        "Create the per-mint `HookConfig` PDA that records the active preset mask",
+        "and shared policy parameters. Called once per mint before the meta list."
+      ],
+      "discriminator": [
+        74,
+        17,
+        135,
+        86,
+        121,
+        237,
+        85,
+        113
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "hook_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  111,
+                  111,
+                  107,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "HookConfigParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "init_kyc_attestation",
+      "docs": [
+        "KYCGate: issue an attestation for a subject wallet (gatekeeper = HUKT in",
+        "this demo, so the account is HUKT-owned)."
+      ],
+      "discriminator": [
+        98,
+        6,
+        203,
+        204,
+        4,
+        245,
+        255,
+        39
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "attestation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  107,
+                  121,
+                  99
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "subject"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "subject",
+          "type": "pubkey"
+        },
+        {
+          "name": "expiry",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "init_royalty_config",
+      "docs": [
+        "Royalty: configure the per-mint royalty policy."
+      ],
+      "discriminator": [
+        34,
+        80,
+        170,
+        253,
+        5,
+        77,
+        56,
+        195
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "royalty_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  121,
+                  97,
+                  108,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "creator",
+          "type": "pubkey"
+        },
+        {
+          "name": "royalty_bps",
+          "type": "u16"
+        },
+        {
+          "name": "enforced",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "init_vesting",
+      "docs": [
+        "Vesting: set the unlock timestamp for `(mint, owner)`."
+      ],
+      "discriminator": [
+        119,
+        192,
+        67,
+        41,
+        47,
+        82,
+        152,
+        27
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vesting",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  101,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              },
+              {
+                "kind": "arg",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        },
+        {
+          "name": "unlock_ts",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_extra_account_meta_list",
+      "docs": [
+        "Write the ExtraAccountMetaList TLV for this mint from its `HookConfig`.",
+        "",
+        "hook-spec section 3.4: implemented as a plain Anchor instruction (option",
+        "a). The deployer/CLI calls it directly; the Execute path below keeps the",
+        "interface discriminator that Token-2022 actually CPIs."
+      ],
+      "discriminator": [
+        92,
+        197,
+        174,
+        197,
+        41,
+        124,
+        19,
+        3
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "extra_account_meta_list",
+          "docs": [
+            "TLV data is written in the handler and validated by seeds."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  120,
+                  116,
+                  114,
+                  97,
+                  45,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "hook_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  111,
+                  111,
+                  107,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "presets_mask",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "revoke_kyc_attestation",
+      "docs": [
+        "KYCGate: revoke a previously issued attestation."
+      ],
+      "discriminator": [
+        243,
+        156,
+        196,
+        221,
+        134,
+        75,
+        48,
+        56
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "attestation"
+          ]
+        },
+        {
+          "name": "attestation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  107,
+                  121,
+                  99
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "subject"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "_subject",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "set_blacklist_entry",
+      "docs": [
+        "Blacklist: create/update the sender block entry for a wallet."
+      ],
+      "discriminator": [
+        34,
+        210,
+        163,
+        152,
+        140,
+        144,
+        126,
+        97
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "entry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  108,
+                  97,
+                  99,
+                  107,
+                  108,
+                  105,
+                  115,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        },
+        {
+          "name": "blocked",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_royalty_receipt",
+      "docs": [
+        "Royalty: record a paid-royalty receipt for `(mint, subject)`. Stands in",
+        "for the marketplace/escrow that actually collected the royalty."
+      ],
+      "discriminator": [
+        60,
+        81,
+        142,
+        254,
+        12,
+        202,
+        168,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "receipt",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  121,
+                  97,
+                  108,
+                  116,
+                  121,
+                  45,
+                  114,
+                  101,
+                  99,
+                  101,
+                  105,
+                  112,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              },
+              {
+                "kind": "arg",
+                "path": "subject"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "subject",
+          "type": "pubkey"
+        },
+        {
+          "name": "amount_paid",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_soulbound_exception",
+      "docs": [
+        "Soulbound: allow a specific sender to move otherwise-bound tokens."
+      ],
+      "discriminator": [
+        187,
+        181,
+        253,
+        94,
+        204,
+        154,
+        79,
+        149
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "exception",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  117,
+                  108,
+                  98,
+                  111,
+                  117,
+                  110,
+                  100,
+                  45,
+                  101,
+                  120,
+                  99
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        },
+        {
+          "name": "allowed",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_whitelist_entry",
+      "docs": [
+        "Royalty: create/update the recipient whitelist entry for a wallet."
+      ],
+      "discriminator": [
+        178,
+        251,
+        88,
+        181,
+        179,
+        221,
+        17,
+        4
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "entry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  119,
+                  104,
+                  105,
+                  116,
+                  101,
+                  108,
+                  105,
+                  115,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        },
+        {
+          "name": "allowed",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "transfer_hook",
+      "docs": [
+        "Token-2022 Execute entrypoint. `#[interface]` overrides Anchor's default",
+        "discriminator with the SPL Execute discriminator so the CPI routes here."
+      ],
+      "discriminator": [
+        105,
+        37,
+        101,
+        197,
+        75,
+        251,
+        102,
+        26
+      ],
+      "accounts": [
+        {
+          "name": "source_token"
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "destination_token"
+        },
+        {
+          "name": "owner",
+          "docs": [
+            "accounts' stored owners, not this account."
+          ]
+        },
+        {
+          "name": "extra_account_meta_list",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  120,
+                  116,
+                  114,
+                  97,
+                  45,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "hook_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  111,
+                  111,
+                  107,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "update_extra_account_meta_list",
+      "docs": [
+        "Rewrite the ExtraAccountMetaList TLV after a config change (reallocates",
+        "the PDA to the new size first)."
+      ],
+      "discriminator": [
+        44,
+        125,
+        141,
+        226,
+        97,
+        179,
+        166,
+        96
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "extra_account_meta_list",
+          "docs": [
+            "rewritten by the handler."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  120,
+                  116,
+                  114,
+                  97,
+                  45,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "hook_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  111,
+                  111,
+                  107,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "presets_mask",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BlacklistEntry",
+      "discriminator": [
+        218,
+        179,
+        231,
+        40,
+        141,
+        25,
+        168,
+        189
+      ]
+    },
+    {
+      "name": "CooldownState",
+      "discriminator": [
+        157,
+        216,
+        206,
+        153,
+        46,
+        206,
+        57,
+        171
+      ]
+    },
+    {
+      "name": "FeeConfig",
+      "discriminator": [
+        143,
+        52,
+        146,
+        187,
+        219,
+        123,
+        76,
+        155
+      ]
+    },
+    {
+      "name": "FeeVault",
+      "discriminator": [
+        192,
+        178,
+        69,
+        232,
+        58,
+        149,
+        157,
+        132
+      ]
+    },
+    {
+      "name": "HookConfig",
+      "discriminator": [
+        137,
+        155,
+        101,
+        95,
+        138,
+        72,
+        8,
+        182
+      ]
+    },
+    {
+      "name": "KycAttestation",
+      "discriminator": [
+        114,
+        140,
+        31,
+        243,
+        17,
+        104,
+        193,
+        72
+      ]
+    },
+    {
+      "name": "RoyaltyConfig",
+      "discriminator": [
+        43,
+        108,
+        34,
+        11,
+        206,
+        64,
+        166,
+        81
+      ]
+    },
+    {
+      "name": "RoyaltyReceipt",
+      "discriminator": [
+        240,
+        169,
+        0,
+        222,
+        224,
+        77,
+        195,
+        226
+      ]
+    },
+    {
+      "name": "SoulboundException",
+      "discriminator": [
+        139,
+        230,
+        171,
+        121,
+        159,
+        130,
+        103,
+        175
+      ]
+    },
+    {
+      "name": "VestingState",
+      "discriminator": [
+        225,
+        34,
+        190,
+        79,
+        98,
+        226,
+        144,
+        101
+      ]
+    },
+    {
+      "name": "WhitelistEntry",
+      "discriminator": [
+        51,
+        70,
+        173,
+        81,
+        219,
+        192,
+        234,
+        62
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TransferNotAllowed",
+      "msg": "Transfer is not allowed by this hook"
+    },
+    {
+      "code": 6001,
+      "name": "NotTransferring",
+      "msg": "Hook invoked outside of a real Token-2022 transfer"
+    },
+    {
+      "code": 6002,
+      "name": "LimitExceeded",
+      "msg": "Amount exceeds the per-wallet limit"
+    },
+    {
+      "code": 6003,
+      "name": "NotWhitelisted",
+      "msg": "Destination owner is not on the whitelist"
+    },
+    {
+      "code": 6004,
+      "name": "Blacklisted",
+      "msg": "Source owner is on the blacklist"
+    },
+    {
+      "code": 6005,
+      "name": "StillLocked",
+      "msg": "Tokens are still locked by the vesting schedule"
+    },
+    {
+      "code": 6006,
+      "name": "CooldownActive",
+      "msg": "Sender is still within the anti-bot cooldown window"
+    },
+    {
+      "code": 6007,
+      "name": "CooldownNotReady",
+      "msg": "Anti-bot cooldown account is missing or not initialized"
+    },
+    {
+      "code": 6008,
+      "name": "KycInvalid",
+      "msg": "KYC attestation is missing, revoked, or expired"
+    },
+    {
+      "code": 6009,
+      "name": "RoyaltyUnpaid",
+      "msg": "Royalty has not been paid for this transfer"
+    },
+    {
+      "code": 6010,
+      "name": "RoyaltyConfigMissing",
+      "msg": "Royalty configuration account is missing"
+    },
+    {
+      "code": 6011,
+      "name": "FeeConfigMissing",
+      "msg": "Fee configuration or vault account is missing"
+    },
+    {
+      "code": 6012,
+      "name": "FeePolicyViolation",
+      "msg": "Transfer violates the fee-on-transfer policy"
+    },
+    {
+      "code": 6013,
+      "name": "PresetMismatch",
+      "msg": "Preset mask does not match the stored hook configuration"
+    },
+    {
+      "code": 6014,
+      "name": "MissingExtraAccount",
+      "msg": "A required extra account was not supplied to the hook"
+    },
+    {
+      "code": 6015,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6016,
+      "name": "Unauthorized",
+      "msg": "Signer is not the configured authority"
+    }
+  ],
+  "types": [
+    {
+      "name": "BlacklistEntry",
+      "docs": [
+        "Blacklist entry keyed by the sender's wallet. Presence + `blocked` reverts."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "blocked",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CooldownState",
+      "docs": [
+        "Anti-bot cooldown state keyed by `[b\"cooldown\", mint, source_owner]`.",
+        "The hook holds this account writable and updates it during a transfer."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "last_ts",
+            "type": "i64"
+          },
+          {
+            "name": "accumulated",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeConfig",
+      "docs": [
+        "Fee-on-transfer policy for a mint (read-only during a transfer)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_transfer",
+            "type": "u64"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeVault",
+      "docs": [
+        "Accounting vault the hook updates with the fee it *would* owe. Actual fee",
+        "movement is done by the Token-2022 TransferFee extension, not this hook."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_fees_recorded",
+            "type": "u64"
+          },
+          {
+            "name": "transfer_count",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HookConfig",
+      "docs": [
+        "Per-mint hook configuration. Always resolved as the first extra account",
+        "(list index 5) so `transfer_hook` can read the active preset mask + params."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "presets_mask",
+            "type": "u8"
+          },
+          {
+            "name": "cooldown_secs",
+            "type": "i64"
+          },
+          {
+            "name": "per_wallet_limit",
+            "type": "u64"
+          },
+          {
+            "name": "gatekeeper",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HookConfigParams",
+      "docs": [
+        "Instruction payload for `init_hook_config`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "presets_mask",
+            "docs": [
+              "Bitmask over `HookPreset` of the presets this mint enforces."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "cooldown_secs",
+            "docs": [
+              "AntiBot: minimum seconds between transfers from the same wallet."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "per_wallet_limit",
+            "docs": [
+              "AntiBot: maximum tokens a single wallet may move per transfer."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "gatekeeper",
+            "docs": [
+              "KYCGate: program that owns the recipient's attestation PDA."
+            ],
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "KycAttestation",
+      "docs": [
+        "KYC attestation for a subject wallet. In this demo the gatekeeper program is",
+        "HUKT itself, so the account is HUKT-owned; a third-party gatekeeper would own",
+        "an identically-shaped account (the hook deserializes it owner-agnostically)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "subject",
+            "type": "pubkey"
+          },
+          {
+            "name": "expiry",
+            "type": "i64"
+          },
+          {
+            "name": "revoked",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoyaltyConfig",
+      "docs": [
+        "Royalty policy for a mint. `enforced` gates whether a receipt is required."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "royalty_bps",
+            "type": "u16"
+          },
+          {
+            "name": "enforced",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoyaltyReceipt",
+      "docs": [
+        "Proof that royalty was paid for a `(mint, source_owner)` pair. Written by an",
+        "approved marketplace/escrow; the hook only verifies its existence + amount."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "subject",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_paid",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SoulboundException",
+      "docs": [
+        "Soulbound exception keyed by the sender's wallet. Absent/`allowed == false`",
+        "means the transfer is rejected."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "allowed",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingState",
+      "docs": [
+        "Vesting/lockup state keyed by `[b\"vesting\", mint, source_owner]`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "unlock_ts",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistEntry",
+      "docs": [
+        "Whitelist entry keyed by the recipient's wallet (global across mints, per",
+        "hook-spec section 8: seed `[b\"whitelist\", destination_owner]`)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "allowed",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}
