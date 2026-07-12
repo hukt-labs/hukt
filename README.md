@@ -180,7 +180,12 @@ sdk/
   cli/                       hukt-cli
 idl/                         exported program IDLs
 docs/                        architecture, hook spec, security
+examples/                    runnable, chain-free SDK examples
 ```
+
+A worked, chain-free example lives in [`examples/simulate-presets.ts`](./examples/simulate-presets.ts):
+it composes four presets into one spec, previews the extra accounts each transfer
+must carry, and simulates which transfer scenarios revert and why.
 
 ## Build and test
 
