@@ -52,10 +52,10 @@ graph LR
    tokens. Value-moving policies (Royalty, FeeOnTransfer) verify a receipt or
    accounting condition that a marketplace/escrow or the Token-2022 TransferFee
    extension actually settles.
-4. **Registry.** `hukt_registry` records which hook program is deployed for a
-   mint, its preset, and its bonded safety attestations. The resolver/SDK and
-   the web inspector surface `attested` / `safetyScore` so integrators can judge
-   a hook before trusting it.
+4. **Registry.** `hukt_registry` records a deployed hook program, its preset,
+   and its bonded safety attestations, keyed by the hook program's id. The
+   resolver/SDK and the web inspector surface `attested` / `safetyScore` so
+   integrators can judge a hook before trusting it.
 
 ## On-chain: hukt_hooks
 
