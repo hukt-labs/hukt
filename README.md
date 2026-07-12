@@ -151,16 +151,17 @@ const { hookProgramId, extraAccounts } = await resolveHook(connection, mint, {
 
 ## Deployments
 
-`hukt_hooks` is deployed to devnet as the reference/demo hook. `hukt_registry`
-is included and tested; its devnet deployment is pending.
+Both programs are deployed to devnet: `hukt_hooks` as the reference/demo hook
+and `hukt_registry` as its attestation registry.
 
 | Program | Cluster | Program ID |
 | --- | --- | --- |
 | `hukt_hooks` | devnet | [`4q7Tgd9A1XfTB2i6WLUjmFXNocw6GrshZwcKgarGV9aC`](https://explorer.solana.com/address/4q7Tgd9A1XfTB2i6WLUjmFXNocw6GrshZwcKgarGV9aC?cluster=devnet) |
+| `hukt_registry` | devnet | [`HkTcGxnRqmyBqrmMb63cad7sfJjzUo5jY4Y3ErQWBrGv`](https://explorer.solana.com/address/HkTcGxnRqmyBqrmMb63cad7sfJjzUo5jY4Y3ErQWBrGv?cluster=devnet) |
 
-Hooks deployed: 1 (devnet demo). No build or test step sends a mainnet or devnet
-transaction; a real deployment happens only under an explicit, user-provided
-deploy keypair.
+Both are devnet reference deployments. No build or test step sends a mainnet or
+devnet transaction; a mainnet deployment happens only under an explicit,
+user-provided deploy keypair.
 
 ## Repository layout
 

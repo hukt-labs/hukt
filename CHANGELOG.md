@@ -28,9 +28,9 @@ First public cut of the framework.
   state PDAs outside a live Token-2022 transfer.
 - `hukt_registry`: bonded attestation market with Safe/Unsafe/NeedsReview
   verdicts, a safety score, and authority slashing and revocation.
-- `hukt_hooks` deployed to devnet as the reference hook
-  (`4q7Tgd9A1XfTB2i6WLUjmFXNocw6GrshZwcKgarGV9aC`); `hukt_registry` builds and is
-  tested, with its devnet deployment pending.
+- `hukt_hooks` (`4q7Tgd9A1XfTB2i6WLUjmFXNocw6GrshZwcKgarGV9aC`) and
+  `hukt_registry` (`HkTcGxnRqmyBqrmMb63cad7sfJjzUo5jY4Y3ErQWBrGv`) deployed to
+  devnet as reference deployments.
 
 ### Shared Rust libraries
 
