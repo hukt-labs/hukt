@@ -40,6 +40,13 @@ impl HookKind {
             HookKind::Soulbound => "soulbound",
         }
     }
+
+    /// Parse a preset slug back into its `HookKind`, the inverse of
+    /// [`slug`](HookKind::slug). Returns `None` for an unrecognized slug so the
+    /// CLI and SDK can reject unknown preset names instead of panicking.
+    pub fn from_slug(slug: &str) -> Option<HookKind> {
+        HookKind::ALL.into_iter().find(|kind| kind.slug() == slug)
+    }
 }
 
 /// Basis-point royalty preset. `bps` is capped at 100% (10_000 bps).
@@ -80,5 +87,17 @@ mod tests {
     fn eight_presets_exist() {
         assert_eq!(HookKind::ALL.len(), 8);
         assert_eq!(HookKind::FeeOnTransfer.slug(), "fee-on-transfer");
+    }
+
+    #[test]
+    fn slug_round_trips() {
+        for kind in HookKind::ALL {
+            assert_eq!(HookKind::from_slug(kind.slug()), Some(kind));
+        }
+    }
+
+    #[test]
+    fn unknown_slug_is_none() {
+        assert_eq!(HookKind::from_slug("staking"), None);
     }
 }
