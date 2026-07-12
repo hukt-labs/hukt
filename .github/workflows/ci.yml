@@ -15,9 +15,8 @@ jobs:
 
       - name: Install Rust toolchain
         run: |
-          rustup toolchain install stable --profile minimal --component rustfmt clippy
-          rustup default stable
-          rustc --version
+          rustup component add rustfmt clippy
+          rustc --version && cargo --version
 
       - name: Formatting (anchor programs + shared libraries)
         run: |
